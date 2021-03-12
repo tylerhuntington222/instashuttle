@@ -6,11 +6,11 @@ volumes:
   production_traefik: {}
 
 services:
-  django: &django
+  django:
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
-    image: test_django_production_django
+    image: simple_django_production_django
     depends_on:
       - postgres
       - redis
@@ -23,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: test_django_production_postgres
+    image: simple_django_production_postgres
     volumes:
       - production_postgres_data:/var/lib/postgresql/data:Z
       - production_postgres_data_backups:/backups:z
@@ -34,7 +34,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile
-    image: test_django_production_traefik
+    image: simple_django_production_traefik
     depends_on:
       - django
     volumes:
@@ -42,25 +42,9 @@ services:
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
-      - "0.0.0.0:5555:5555"
 
   redis:
     image: redis:5.0
-
-  celeryworker:
-    <<: *django
-    image: test_django_production_celeryworker
-    command: /start-celeryworker
-
-  celerybeat:
-    <<: *django
-    image: test_django_production_celerybeat
-    command: /start-celerybeat
-
-  flower:
-    <<: *django
-    image: test_django_production_flower
-    command: /start-flower
 
   
   awscli:

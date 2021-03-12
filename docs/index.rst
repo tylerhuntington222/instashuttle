@@ -1,9 +1,9 @@
-.. test-django documentation master file, created by
+.. simple_django documentation master file, created by
    sphinx-quickstart.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to test-django's documentation!
+Welcome to simple_django's documentation!
 ======================================================================
 
 .. toctree::
