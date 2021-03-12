@@ -1,5 +1,5 @@
-simple_django
-=============
+dj
+==
 
 Behold My Awesome Project!
 
@@ -39,7 +39,7 @@ Running type checks with mypy:
 
 ::
 
-  $ mypy simple_django
+  $ mypy dj
 
 Test coverage
 ^^^^^^^^^^^^^

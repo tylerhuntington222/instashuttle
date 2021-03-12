@@ -1,6 +1,6 @@
 from django.urls import path
 
-from simple_django.users.views import (
+from dj.users.views import (
     user_detail_view,
     user_redirect_view,
     user_update_view,

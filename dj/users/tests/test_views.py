@@ -7,10 +7,10 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import RequestFactory
 from django.urls import reverse
 
-from simple_django.users.forms import UserChangeForm
-from simple_django.users.models import User
-from simple_django.users.tests.factories import UserFactory
-from simple_django.users.views import (
+from dj.users.forms import UserChangeForm
+from dj.users.models import User
+from dj.users.tests.factories import UserFactory
+from dj.users.views import (
     UserRedirectView,
     UserUpdateView,
     user_detail_view,

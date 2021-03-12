@@ -1,9 +1,9 @@
-.. simple_django documentation master file, created by
+.. dj documentation master file, created by
    sphinx-quickstart.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to simple_django's documentation!
+Welcome to dj's documentation!
 ======================================================================
 
 .. toctree::
