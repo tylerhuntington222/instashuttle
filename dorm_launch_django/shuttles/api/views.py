@@ -15,9 +15,4 @@ class ShuttleViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, Gener
     authentication_classes = (TokenAuthWithQueryString,)
 
     def get_queryset(self, *args, **kwargs):
-        return self.queryset.filter(uid=self.request.shuttle.uid)
-
-    @action(detail=False, methods=["GET"])
-    def me(self, request):
-        serializer = ShuttleSerializer(request.shuttle, context={"request": request})
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+        return self.queryset
