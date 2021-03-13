@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from dorm_launch_django.utils.api_authentication import TokenAuthWithQueryString
 
-from .serializers import UserSerializer
+from dorm_launch_django.users.api.serializers import UserSerializer
 
 User = get_user_model()
 

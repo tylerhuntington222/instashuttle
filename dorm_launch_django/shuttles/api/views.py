@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from dorm_launch_django.utils.api_authentication import TokenAuthWithQueryString
 
-from dorm_launch_django.shuttles.serializers import ShuttleSerializer
+from dorm_launch_django.shuttles.api.serializers import ShuttleSerializer
 from dorm_launch_django.shuttles.models import Shuttle
 
 class ShuttleViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
