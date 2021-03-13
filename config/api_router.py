@@ -9,6 +9,7 @@ else:
     router = SimpleRouter()
 
 router.register("users", UserViewSet)
+router.register("shuttles", ShuttleViewSet)
 
 
 app_name = "api"
