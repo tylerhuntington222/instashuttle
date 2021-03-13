@@ -24,8 +24,8 @@ if __name__ == "__main__":
         raise
 
     # This allows easy placement of apps within the interior
-    # dj directory.
+    # dorm_launch_django directory.
     current_path = Path(__file__).parent.resolve()
-    sys.path.append(str(current_path / "dj"))
+    sys.path.append(str(current_path / "dorm_launch_django"))
 
     execute_from_command_line(sys.argv)

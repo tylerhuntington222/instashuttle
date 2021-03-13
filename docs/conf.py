@@ -26,7 +26,7 @@ django.setup()
 
 # -- Project information -----------------------------------------------------
 
-project = "dj"
+project = "dorm_launch_django"
 copyright = """2021, Daniel Roy Greenfeld"""
 author = "Daniel Roy Greenfeld"
 
