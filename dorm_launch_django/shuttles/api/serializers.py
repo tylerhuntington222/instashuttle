@@ -1,4 +1,4 @@
-from dorm_launch_django.models import Shuttle
+from dorm_launch_django.shuttles.models import Shuttle
 from rest_framework import serializers
 
 class ShuttleSerializer(serializers.ModelSerializer):
