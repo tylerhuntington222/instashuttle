@@ -75,6 +75,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "dorm_launch_django.users.apps.UsersConfig",
+    "dorm_launch_django.shuttles.apps.ShuttlesConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
