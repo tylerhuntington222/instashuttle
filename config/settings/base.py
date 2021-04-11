@@ -95,6 +95,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "users:redirect"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
@@ -268,6 +269,9 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_ADAPTER = "dorm_launch_django.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "dorm_launch_django.users.adapters.SocialAccountAdapter"
+
+ACCOUNT_FORMS = {'signup': 'dorm_launch_django.users.forms.CustomUserSignupForm'}
+
 
 # django-rest-framework
 # -------------------------------------------------------------------------------
