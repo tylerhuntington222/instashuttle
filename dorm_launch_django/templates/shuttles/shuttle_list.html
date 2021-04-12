@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+  {% if err %}
+  <div class="alert alert-danger" role="alert">
+    {{ err }}
+</div>
+  {% endif %}
+  {% for obj in object_list %}
+    <div class="card" style="width: 90%; margin-bottom: 1%">
+    <div class="card-body">
+    <h5 class="card-title text-muted mb-2">{{ obj.time_slot }}</h5>
+    <p class="card-text">
+    <div>
+      <strong>Destination:</strong> {{ obj.destination }}
+    </div>
+    <div>
+      <strong>Open Seats:</strong> {{ obj.open_seats }}
+    </div>
+      <div>
+        <strong>Passengers:</strong>
+        {% for p in obj.passengers.all %}
+{#          <div class="ml-2">#}
+{#          <li>{{ p.first_name }} {{p.last_name }}</li>#}
+            {#          <li>{{ p.first_name }} {{p.last_name }}</li>#}
+          <span class="badge badge-pill badge-secondary">
+            {{ p.first_name }} {{p.last_name }}
+          </span>
+{#          </div>#}
+        {% endfor %}
+      </div>
+      <div>
+        {% if obj.open_seats > 0 %}
+          <a href="{% url 'shuttles:join' pk=obj.pk %}"
+             class="btn btn-primary mt-2">
+            Join Shuttle
+          </a>
+        {% else %}
+          <button href="#" class="btn btn-warning mt-2">Shuttle Full</button>
+        {% endif %}
+        {% if user.get_username in obj.passenger_usernames %}
+{#        {% if user.get_username %}#}
+        <a href="{% url 'shuttles:unjoin' pk=obj.pk %}"
+           class="btn btn-danger mt-2">
+            Un-Join Shuttle
+          </a>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    </div>
+  {% endfor %}
+  <div class="card" style="width: 90%; margin-bottom: 1%">
+    <div class="card-body">
+      <a href="{% url 'shuttles:create' %}" class="btn btn-success">
+        + Create New Shuttle
+      </a>
+    </div>
+  </div>
+{% endblock %}
+

@@ -8,7 +8,6 @@
 
   <div class="row">
     <div class="col-sm-12">
-
       <h2>{{ object.first_name }} {{ object.last_name }}</h2>
     </div>
   </div>
@@ -20,6 +19,7 @@
   <div class="col-sm-12">
     <p>Username: {{ object.username }}</p>
     <p>Email: {{ object.email }}</p>
+    <p>Current Reservations: {{ object.n_shuttles }}</p>
     <p>Shuttle Tokens: {{ object.shuttle_tokens }}</p>
     <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Account Settings</a>
 {#    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>#}
