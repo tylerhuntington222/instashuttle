@@ -58,7 +58,7 @@ class ShuttleJoinView(TemplateView, LoginRequiredMixin):
         else:
             err = """
                 You are out of reservation tokens!
-                You must cancel an existing reservation to join this shuttle.
+                You must cancel an existing reservation to join another shuttle.
             """
         context = {
             'object_list': Shuttle.objects.all().order_by('time_slot'),
