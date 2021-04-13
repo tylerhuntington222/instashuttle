@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField, IntegerField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from dorm_launch_django.shuttles.settings import MAX_SHUTTLE_RES_PER_USER
+from dorm_launch_django.controls.models import Controls
 
 
 class User(AbstractUser):
@@ -18,7 +18,8 @@ class User(AbstractUser):
 
     @property
     def shuttle_tokens(self):
-        return MAX_SHUTTLE_RES_PER_USER - self.n_shuttles
+        max_res = Controls.objects.first().max_reservations_per_user
+        return max_res - self.n_shuttles
 
     def get_absolute_url(self):
         """Get url for user's detail view.

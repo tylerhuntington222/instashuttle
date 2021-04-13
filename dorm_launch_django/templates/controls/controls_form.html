@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% block nav_item_controls %}active{% endblock %}
 {% block content %}
   <div class="text-center">
     <img class="mt-3" src="{% static 'images/controls.png' %}" width=120rem>
@@ -8,7 +9,7 @@
   </div>
   <div>
 
-  <h3>Settings</h3>
+  <h4>Settings</h4>
     <form method="POST" action="{% url 'controls:update' %}">
       {% csrf_token %}
       {{ form|crispy }}
@@ -17,15 +18,15 @@
     </form>
   </div>
   <div class="mt-5">
-    <h3>Lottery</h3>
+    <h4>Lottery</h4>
     <p>
       Running the lottery will randomly approve one shuttle per time slot
-      for which multiple competing shuttles have been requested. If only one
-      shuttle for a particular time slot has been requested, that shuttle will
+      for which multiple shuttles have been requested. If only one
+      shuttle for a time slot has been requested, that shuttle will
       automatically be approved. Shuttles that are not chosen in the lottery
-      will remain in "Pending" status in case an approved shuttle is cancelled
+      will retain a "Pending" status in case an approved shuttle is cancelled
       before departure. In the event of this, a "Pending" shuttle can be
-      manually approved on the shuttle dashboard to fill the open slot.
+      manually approved on the Dashboard to fill the open slot.
     </p>
     <div>
       <a href="{% url 'controls:lottery' %}"

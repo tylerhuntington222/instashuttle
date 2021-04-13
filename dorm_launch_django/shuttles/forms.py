@@ -1,11 +1,7 @@
-from django.contrib import admin
-from django.contrib.auth import forms as admin_forms
-from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
 from dorm_launch_django.shuttles.models import Shuttle
 from django.forms import ModelForm, ValidationError
 from django.forms.widgets import CheckboxSelectMultiple
-from dorm_launch_django.shuttles.settings import MIN_PASSENGERS_TO_CREATE
+from dorm_launch_django.controls.models import Controls
 
 class ShuttleCreateForm(ModelForm):
 
@@ -22,14 +18,15 @@ class ShuttleCreateForm(ModelForm):
 
     def clean(self):
         data = self.cleaned_data
+        min_passengers = Controls.objects.first().min_passengers_for_request
         TOO_FEW_PASSENGERS_ERR = f"""
-            At least {MIN_PASSENGERS_TO_CREATE} passengers required
+            At least {min_passengers} passengers required
             to request a shuttle!
         """
         # ensure that there are at least three passengers
         if 'passengers' not in data:
             raise ValidationError(TOO_FEW_PASSENGERS_ERR)
-        if len(data['passengers']) < MIN_PASSENGERS_TO_CREATE:
+        if len(data['passengers']) < min_passengers:
             raise ValidationError(TOO_FEW_PASSENGERS_ERR)
 
         # check that user has enough tokens to create shuttle

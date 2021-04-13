@@ -138,6 +138,11 @@ MIDDLEWARE = [
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+# MESSAGES FRAMEWORK
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/3.0/ref/contrib/messages/
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
 
 # STATIC
 # ------------------------------------------------------------------------------
