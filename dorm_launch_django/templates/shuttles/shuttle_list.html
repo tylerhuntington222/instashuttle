@@ -8,8 +8,17 @@
   {% for obj in object_list %}
     <div class="card" style="width: 90%; margin-bottom: 1%">
     <div class="card-body">
-    <h5 class="card-title text-muted mb-2">{{ obj.time_slot }}</h5>
+    <h5 class="card-title text-muted mb-2">{{ obj.time_slot_str }}</h5>
     <p class="card-text">
+      <div>
+        <strong>Status:</strong>
+      {% if obj.status == 'Requested' %}
+      <span class="badge badge-warning">{{ obj.status }}</span>
+      {% endif %}
+      {% if obj.status == 'Approved' %}
+        <span class="badge badge-info">{{ obj.status }}</span>
+      {% endif %}
+      </div>
     <div>
       <strong>Destination:</strong> {{ obj.destination }}
     </div>
@@ -29,21 +38,39 @@
         {% endfor %}
       </div>
       <div>
-        {% if obj.open_seats > 0 %}
+        {% if obj.open_seats > 0 and user.get_username not in obj.passenger_usernames %}
           <a href="{% url 'shuttles:join' pk=obj.pk %}"
              class="btn btn-primary mt-2">
             Join Shuttle
           </a>
-        {% else %}
-          <button href="#" class="btn btn-warning mt-2">Shuttle Full</button>
+          {% endif %}
+        {% if obj.open_seats == 0 %}
+          <button href="#" class="btn btn-info mt-2">Shuttle Full</button>
         {% endif %}
         {% if user.get_username in obj.passenger_usernames %}
-{#        {% if user.get_username %}#}
         <a href="{% url 'shuttles:unjoin' pk=obj.pk %}"
            class="btn btn-danger mt-2">
-            Un-Join Shuttle
+            Unjoin Shuttle
           </a>
         </a>
+        {% endif %}
+        {% if user.is_staff %}
+          {% if obj.status == 'Requested' %}
+          <a href="{% url 'shuttles:approve' pk=obj.pk %}"
+             class="btn btn-success mt-2">
+            Approve Shuttle
+          </a>
+        {% endif %}
+        {% if obj.status == 'Approved' %}
+          <a href="{% url 'shuttles:unapprove' pk=obj.pk %}"
+             class="btn btn-warning mt-2">
+            Unapprove Shuttle
+          </a>
+        {% endif %}
+          <a href="{% url 'shuttles:delete' pk=obj.pk %}"
+             class="btn btn-danger mt-2">
+            Delete Shuttle
+          </a>
         {% endif %}
       </div>
     </div>
@@ -52,7 +79,7 @@
   <div class="card" style="width: 90%; margin-bottom: 1%">
     <div class="card-body">
       <a href="{% url 'shuttles:create' %}" class="btn btn-success">
-        + Create New Shuttle
+        + Request New Shuttle
       </a>
     </div>
   </div>

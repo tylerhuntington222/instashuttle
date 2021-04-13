@@ -12,8 +12,15 @@ from dorm_launch_django.users.models import User
 class Shuttle(Model):
     """Default user for dorm-launch-django."""
 
-    uid = CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4)
 
+    STATUS_CHOICES = [
+        ('Requested', 'Requested'),
+        ('Approved', 'Approved'),
+    ]
+    status = CharField(
+        _("Status"), blank=True, max_length=255, choices=STATUS_CHOICES,
+        default='Requested'
+    )
     campus_depart_location = CharField(_("Campus Departure Location"), blank=True, max_length=255, null=True)
     pickup_location = CharField(_("Shuttle Pickup Location"), blank=True, max_length=255, null=True)
 
@@ -41,14 +48,18 @@ class Shuttle(Model):
     )
 
     TIME_SLOT_CHOICES = [
-        ('Friday 7:00-9:00', 'Friday 7:00-9:00'),
-        ('Saturday 11:30-1:30', 'Saturday 11:30-1:30'),
-        ('Saturday 2:00-4:00', 'Saturday 2:00-4:00'),
-        ('Saturday 7:00-9:00', 'Saturday 7:00-9:00'),
+        # ('Friday 7:00-9:00', 'Friday 7:00-9:00'),
+        # ('Saturday 11:30-1:30', 'Saturday 11:30-1:30'),
+        # ('Saturday 2:00-4:00', 'Saturday 2:00-4:00'),
+        # ('Saturday 7:00-9:00', 'Saturday 7:00-9:00'),
+        ('0', 'Friday 7:00-9:00'),
+        ('1', 'Saturday 11:30-1:30'),
+        ('2', 'Saturday 2:00-4:00'),
+        ('3', 'Saturday 7:00-9:00'),
     ]
     time_slot = CharField(
         _("Time Slot"),
-        max_length=200,
+        max_length=300,
         choices=TIME_SLOT_CHOICES,
     )
 
@@ -59,6 +70,28 @@ class Shuttle(Model):
     @property
     def passenger_usernames(self):
         return [p.username for p in self.passengers.all()]
+
+    # @property
+    # def time_slot_index(self):
+    #     """
+    #     Zero-based index of the shuttle time slot
+    #     :return:
+    #     """
+    #     indices = {
+    #         'Friday 7:00-9:00': 0,
+    #         'Saturday 11:30-1:30': 1,
+    #         'Saturday 2:00-4:00': 2,
+    #         'Saturday 7:00-9:00': 3
+    #     }
+    #     return indices[self.time_slot]
+
+    @property
+    def time_slot_str(self):
+        """
+        Human-readable string of the shuttle time slot
+        :return:
+        """
+        return self.get_time_slot_display()
 
 
     def get_absolute_url(self):

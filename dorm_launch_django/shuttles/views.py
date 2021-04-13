@@ -17,11 +17,8 @@ from django.shortcuts import render, redirect
 
 class ShuttleList(LoginRequiredMixin, ListView):
   model = Shuttle
+  ordering = ['time_slot']
 
-  def get_context_data(self, **kwargs):
-      context = super().get_context_data(**kwargs)
-      context['now'] = timezone.now()
-      return context
 
 shuttle_list_view = ShuttleList.as_view()
 
@@ -33,6 +30,7 @@ class ShuttleCreate(CreateView):
     def get_initial(self):
         user = self.request.user
         return {
+            'request': self.request,
             'passengers': user
         }
 
@@ -56,7 +54,10 @@ class ShuttleJoinView(TemplateView, LoginRequiredMixin):
         if request.user.shuttle_tokens > 0:
             shuttle.passengers.add(request.user)
         else:
-            err = 'You cannot join any more shuttles!'
+            err = """
+                You are out of reservation tokens!
+                You must cancel an existing reservation to join this shuttle.
+            """
         context = {
             'object_list': Shuttle.objects.all(),
             'err': err
@@ -64,6 +65,48 @@ class ShuttleJoinView(TemplateView, LoginRequiredMixin):
         return render(request, self.template_name, context=context)
 
 shuttle_join_view = ShuttleJoinView.as_view()
+
+
+class ShuttleApproveView(TemplateView, LoginRequiredMixin):
+    template_name = 'shuttles/shuttle_list.html'
+
+    def get(self, request, pk, *args, **kwargs):
+        shuttle = Shuttle.objects.get(pk=pk)
+        shuttle.status = 'Approved'
+        shuttle.save()
+        context = {
+            'object_list': Shuttle.objects.all(),
+        }
+        return render(request, self.template_name, context=context)
+
+shuttle_approve_view = ShuttleApproveView.as_view()
+
+class ShuttleUnapproveView(TemplateView, LoginRequiredMixin):
+    template_name = 'shuttles/shuttle_list.html'
+
+    def get(self, request, pk, *args, **kwargs):
+        shuttle = Shuttle.objects.get(pk=pk)
+        shuttle.status = 'Requested'
+        shuttle.save()
+        context = {
+            'object_list': Shuttle.objects.all(),
+        }
+        return render(request, self.template_name, context=context)
+
+shuttle_unapprove_view = ShuttleUnapproveView.as_view()
+
+class ShuttleDeleteView(TemplateView, LoginRequiredMixin):
+    template_name = 'shuttles/shuttle_list.html'
+
+    def get(self, request, pk, *args, **kwargs):
+        shuttle = Shuttle.objects.get(pk=pk)
+        shuttle.delete()
+        context = {
+            'object_list': Shuttle.objects.all(),
+        }
+        return render(request, self.template_name, context=context)
+
+shuttle_delete_view = ShuttleDeleteView.as_view()
 
 class ShuttleUnJoinView(View, LoginRequiredMixin):
     template_name = 'shuttles/shuttle_list.html'

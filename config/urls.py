@@ -4,12 +4,13 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views import defaults as default_views
 from rest_framework.authtoken.views import obtain_auth_token
+from dorm_launch_django.views import home_view
 from dorm_launch_django.shuttles.views import (
     ShuttleList, ShuttleCreate, shuttle_join_view, shuttle_list_view
 )
 
 urlpatterns = [
-    path("", shuttle_list_view, name='home'),
+    path("", home_view, name='home'),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management

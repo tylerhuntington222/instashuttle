@@ -58,25 +58,25 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'shuttles:list' %}">
+        <a class="navbar-brand" href="{% url 'home' %}">
           <img src="{% static 'images/favicons/favicon.ico.png' %}" width="9%">
           InstaShuttle
         </a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'shuttles:list' %}">Shuttles<span class="sr-only">(current)</span></a>
+            <li class="nav-item active mr-3">
+              <a class="nav-link" href="{% url 'shuttles:list' %}">Join<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'shuttles:create' %}">Create</a>
+            <li class="nav-item mr-3">
+              <a class="nav-link" href="{% url 'shuttles:create' %}">Request</a>
             </li>
             {% if request.user.is_authenticated %}
-              <li class="nav-item">
+              <li class="nav-item mr-3">
                 {# URL provided by django-allauth/account/urls.py #}
                 <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item mr-3">
                 {# URL provided by django-allauth/account/urls.py #}
                 <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Log Out" %}</a>
               </li>
