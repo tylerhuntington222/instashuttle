@@ -12,7 +12,7 @@
     <p class="card-text">
       <div>
         <strong>Status:</strong>
-      {% if obj.status == 'Requested' %}
+      {% if obj.status == 'Pending' %}
       <span class="badge badge-warning">{{ obj.status }}</span>
       {% endif %}
       {% if obj.status == 'Approved' %}
@@ -55,7 +55,7 @@
         </a>
         {% endif %}
         {% if user.is_staff %}
-          {% if obj.status == 'Requested' %}
+          {% if obj.status == 'Pending' %}
           <a href="{% url 'shuttles:approve' pk=obj.pk %}"
              class="btn btn-success mt-2">
             Approve Shuttle

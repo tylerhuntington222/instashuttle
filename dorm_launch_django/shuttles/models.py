@@ -14,12 +14,13 @@ class Shuttle(Model):
 
 
     STATUS_CHOICES = [
-        ('Requested', 'Requested'),
+        ('Pending', 'Pending'),
         ('Approved', 'Approved'),
+        ('Launched', 'Launched'),
     ]
     status = CharField(
         _("Status"), blank=True, max_length=255, choices=STATUS_CHOICES,
-        default='Requested'
+        default='Pending'
     )
     campus_depart_location = CharField(_("Campus Departure Location"), blank=True, max_length=255, null=True)
     pickup_location = CharField(_("Shuttle Pickup Location"), blank=True, max_length=255, null=True)

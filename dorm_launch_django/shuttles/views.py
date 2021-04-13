@@ -17,7 +17,9 @@ from django.shortcuts import render, redirect
 
 class ShuttleList(LoginRequiredMixin, ListView):
   model = Shuttle
-  ordering = ['time_slot']
+
+  def get_queryset(self):
+      return Shuttle.objects.order_by('time_slot')
 
 
 shuttle_list_view = ShuttleList.as_view()
@@ -59,7 +61,7 @@ class ShuttleJoinView(TemplateView, LoginRequiredMixin):
                 You must cancel an existing reservation to join this shuttle.
             """
         context = {
-            'object_list': Shuttle.objects.all(),
+            'object_list': Shuttle.objects.all().order_by('time_slot'),
             'err': err
         }
         return render(request, self.template_name, context=context)
@@ -75,7 +77,7 @@ class ShuttleApproveView(TemplateView, LoginRequiredMixin):
         shuttle.status = 'Approved'
         shuttle.save()
         context = {
-            'object_list': Shuttle.objects.all(),
+            'object_list': Shuttle.objects.all().order_by('time_slot')
         }
         return render(request, self.template_name, context=context)
 
@@ -86,10 +88,10 @@ class ShuttleUnapproveView(TemplateView, LoginRequiredMixin):
 
     def get(self, request, pk, *args, **kwargs):
         shuttle = Shuttle.objects.get(pk=pk)
-        shuttle.status = 'Requested'
+        shuttle.status = 'Pending'
         shuttle.save()
         context = {
-            'object_list': Shuttle.objects.all(),
+            'object_list': Shuttle.objects.all().order_by('time_slot')
         }
         return render(request, self.template_name, context=context)
 
@@ -102,7 +104,7 @@ class ShuttleDeleteView(TemplateView, LoginRequiredMixin):
         shuttle = Shuttle.objects.get(pk=pk)
         shuttle.delete()
         context = {
-            'object_list': Shuttle.objects.all(),
+            'object_list': Shuttle.objects.all().order_by('time_slot')
         }
         return render(request, self.template_name, context=context)
 

@@ -16,6 +16,7 @@ urlpatterns = [
     # User management
     path("users/", include("dorm_launch_django.users.urls", namespace="users")),
     path("shuttles/", include("dorm_launch_django.shuttles.urls", namespace="shuttles")),
+    path("controls/", include("dorm_launch_django.controls.urls", namespace="controls")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
