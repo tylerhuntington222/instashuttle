@@ -83,7 +83,7 @@
             {% if request.user.is_staff %}
               <li class="nav-item mr-3">
                 {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'controls:panel'  %}">{% trans "Control Panel" %}</a>
+                <a class="nav-link" href="{% url 'controls:update'  %}">{% trans "Control Panel" %}</a>
               </li>
             {% endif %}
             {% else %}

@@ -76,6 +76,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "dorm_launch_django.users.apps.UsersConfig",
     "dorm_launch_django.shuttles.apps.ShuttlesConfig",
+    "dorm_launch_django.controls.apps.ControlsConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -288,3 +289,6 @@ REST_FRAMEWORK = {
 CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
+# App-specific settings
+MIN_PASSENGERS_FOR_REQUEST=3
+MAX_RESERVATIONS_PER_USER=2

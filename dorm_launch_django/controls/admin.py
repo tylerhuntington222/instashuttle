@@ -1,3 +1,4 @@
 from django.contrib import admin
+from dorm_launch_django.controls.models import Controls
 
-# Register your models here.
+admin.site.register(Controls)
