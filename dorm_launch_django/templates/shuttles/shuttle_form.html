@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block nav_item_request %}active{% endblock %}
 {% block content %}
-  <h1>Shuttle Request</h1>
+  <h3>Shuttle Request</h3>
   <form method="POST" action="{% url 'shuttles:create' %}">
   {% csrf_token %}
   {{ form|crispy }}
