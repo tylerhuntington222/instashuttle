@@ -36,10 +36,11 @@ class Shuttle(Model):
     passengers = ManyToManyField(User)
 
     DESTINATION_CHOICES = [
-        ('San Ramon Safeway', 'San Ramon Safeway'),
+        ('San Ramon Safeway/Sharetea', 'San Ramon Safeway/Sharetea'),
         ("San Ramon Trader Joe's", "San Ramon Trader Joe's"),
         ("Danville Trader Joe's", "Danville Trader Joe's"),
-        ("San Ramon Sharetea", "San Ramon Sharetea"),
+        ("Dublin 99 Ranch Market", "Dublin 99 Ranch Market"),
+        ("San Ramon T4", "San Ramon T4"),
     ]
 
     destination = CharField(
