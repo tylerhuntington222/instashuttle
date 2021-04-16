@@ -33,7 +33,10 @@ class Shuttle(Model):
     created_by = ForeignKey(
         User, related_name='creator', blank=True, null=True, on_delete=CASCADE
     )
-    passengers = ManyToManyField(User)
+    passengers = ManyToManyField(
+        User,
+        limit_choices_to={'is_test_user': False}
+    )
 
     DESTINATION_CHOICES = [
         ('San Ramon Safeway/Sharetea', 'San Ramon Safeway/Sharetea'),

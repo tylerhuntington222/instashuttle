@@ -25,7 +25,7 @@ class ShuttleList(LoginRequiredMixin, ListView):
 shuttle_list_view = ShuttleList.as_view()
 
 
-class ShuttleCreate(CreateView):
+class ShuttleCreate(LoginRequiredMixin, CreateView):
     form_class = ShuttleCreateForm
     model = Shuttle
 

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField, IntegerField
+from django.db.models import CharField, IntegerField, BooleanField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from dorm_launch_django.controls.models import Controls
@@ -11,6 +11,7 @@ class User(AbstractUser):
     #: First and last name do not cover name patterns around the globe
     first_name = CharField(_("First Name"), blank=True, max_length=255)
     last_name = CharField(_("Last Name"), blank=True, max_length=255)
+    is_test_user = BooleanField(_("Test User"), blank=True)
 
     @property
     def n_shuttles(self):
