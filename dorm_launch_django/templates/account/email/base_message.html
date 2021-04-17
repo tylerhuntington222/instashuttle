@@ -1,0 +1,22 @@
+{% load i18n %}
+{% autoescape off %}
+  {% blocktrans with site_name=current_site.name %}
+    <p>
+      Hello from {{ site_name }}!
+    </p>
+  {% endblocktrans %}
+  {% block content %}{% endblock %}
+  {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+    <p>
+      Thank you for using
+      <a href="https://instashuttle.herokuapp.com/">InstaShuttle</a>!
+    </p>
+    <p>
+      ---
+      <br>
+      InstaShuttle Support Team
+      <br>
+      <a href="mailto:instashuttlehelp@gmail.com">Contact Us</a>
+    </p>
+  {% endblocktrans %}
+{% endautoescape %}

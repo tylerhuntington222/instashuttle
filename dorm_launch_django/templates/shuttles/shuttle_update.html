@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block nav_item_request %}active{% endblock %}
+{% block content %}
+  <div class="text-center">
+  <img class="my-3" src="{% static 'images/form_icon.png' %}" width=110rem>
+  <h3>Edit Shuttle</h3>
+  </div>
+  <form method="POST" action="{% url 'shuttles:update' pk=pk %}">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button type="submit" class="btn btn-primary mb-3">Confirm Changes</button>
+  </form>
+{% endblock %}
+

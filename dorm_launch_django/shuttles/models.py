@@ -12,20 +12,25 @@ from dorm_launch_django.users.models import User
 class Shuttle(Model):
     """Default user for dorm-launch-django."""
 
-
     STATUS_CHOICES = [
         ('Pending', 'Pending'),
         ('Approved', 'Approved'),
         ('Launched', 'Launched'),
+        ('Landed', 'Landed'),
+        ('Archived', 'Archived'),
+        ('Deleted', 'Deleted'),
     ]
     status = CharField(
         _("Status"), blank=True, max_length=255, choices=STATUS_CHOICES,
         default='Pending'
     )
-    campus_depart_location = CharField(_("Campus Departure Location"), blank=True, max_length=255, null=True)
-    pickup_location = CharField(_("Shuttle Pickup Location"), blank=True, max_length=255, null=True)
+    campus_depart_location = CharField(_("Campus Departure Location"),
+                                       blank=True, max_length=255, null=True)
+    pickup_location = CharField(_("Shuttle Pickup Location"), blank=True,
+                                max_length=255, null=True)
 
-    campus_depart_time = DateTimeField(_("Campus Departure Time"), blank=True, null=True)
+    campus_depart_time = DateTimeField(_("Campus Departure Time"), blank=True,
+                                       null=True)
     pickup_time = DateTimeField(_("Pickup Time"), blank=True, null=True)
     return_time = DateTimeField(_("Return Time"), blank=True, null=True)
     capacity = IntegerField(_("Capacity"), blank=True, default=9)
@@ -97,7 +102,6 @@ class Shuttle(Model):
         :return:
         """
         return self.get_time_slot_display()
-
 
     def get_absolute_url(self):
         """Get url for user's detail view.

@@ -18,7 +18,7 @@ urlpatterns = [
     path("", view=shuttle_list_view, name='list'),
     path("~create/", view=shuttle_create_view, name="create"),
     path("~redirect/", view=shuttle_redirect_view, name="redirect"),
-    path("~update/", view=shuttle_update_view, name="update"),
+    path("~update/<int:pk>/", view=shuttle_update_view, name="update"),
     path("~join/<int:pk>/", view=shuttle_join_view, name="join"),
     path("~unjoin/<int:pk>/", view=shuttle_unjoin_view, name="unjoin"),
     path("~approve/<int:pk>/", view=shuttle_approve_view, name="approve"),

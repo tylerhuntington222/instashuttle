@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
@@ -10,7 +11,9 @@ from dorm_launch_django.shuttles.models import Shuttle
 from django.views.generic import ListView, FormView
 from django.utils import timezone
 from django.forms.widgets import CheckboxSelectMultiple
-from dorm_launch_django.shuttles.forms import ShuttleCreateForm
+from dorm_launch_django.shuttles.forms import (
+    ShuttleCreateForm, ShuttleUpdateForm
+)
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 
@@ -19,8 +22,11 @@ class ShuttleList(LoginRequiredMixin, ListView):
   model = Shuttle
 
   def get_queryset(self):
-      return Shuttle.objects.order_by('time_slot')
-
+      vis_statuses = ['Pending', 'Approved', 'Launched', 'Landed']
+      qs = Shuttle.objects\
+          .filter(status__in=vis_statuses)\
+          .order_by('time_slot', 'status')
+      return qs
 
 shuttle_list_view = ShuttleList.as_view()
 
@@ -52,7 +58,6 @@ class ShuttleJoinView(TemplateView, LoginRequiredMixin):
 
     def get(self, request, pk, *args, **kwargs):
         shuttle = Shuttle.objects.get(pk=pk)
-        err=""
         if request.user.shuttle_tokens > 0:
             shuttle.passengers.add(request.user)
         else:
@@ -60,11 +65,8 @@ class ShuttleJoinView(TemplateView, LoginRequiredMixin):
                 You are out of reservation tokens!
                 You must cancel an existing reservation to join another shuttle.
             """
-        context = {
-            'object_list': Shuttle.objects.all().order_by('time_slot'),
-            'err': err
-        }
-        return render(request, self.template_name, context=context)
+            messages.add_message(request, messages.ERROR, err)
+        return redirect('shuttles:list')
 
 shuttle_join_view = ShuttleJoinView.as_view()
 
@@ -76,10 +78,7 @@ class ShuttleApproveView(TemplateView, LoginRequiredMixin):
         shuttle = Shuttle.objects.get(pk=pk)
         shuttle.status = 'Approved'
         shuttle.save()
-        context = {
-            'object_list': Shuttle.objects.all().order_by('time_slot')
-        }
-        return render(request, self.template_name, context=context)
+        return redirect('shuttles:list')
 
 shuttle_approve_view = ShuttleApproveView.as_view()
 
@@ -90,10 +89,7 @@ class ShuttleUnapproveView(TemplateView, LoginRequiredMixin):
         shuttle = Shuttle.objects.get(pk=pk)
         shuttle.status = 'Pending'
         shuttle.save()
-        context = {
-            'object_list': Shuttle.objects.all().order_by('time_slot')
-        }
-        return render(request, self.template_name, context=context)
+        return redirect('shuttles:list')
 
 shuttle_unapprove_view = ShuttleUnapproveView.as_view()
 
@@ -102,13 +98,16 @@ class ShuttleDeleteView(TemplateView, LoginRequiredMixin):
 
     def get(self, request, pk, *args, **kwargs):
         shuttle = Shuttle.objects.get(pk=pk)
-        shuttle.delete()
+        shuttle.status = 'Deleted'
+        shuttle.save()
         context = {
             'object_list': Shuttle.objects.all().order_by('time_slot')
         }
         return render(request, self.template_name, context=context)
 
 shuttle_delete_view = ShuttleDeleteView.as_view()
+
+
 
 class ShuttleUnJoinView(View, LoginRequiredMixin):
     template_name = 'shuttles/shuttle_list.html'
@@ -124,15 +123,18 @@ shuttle_unjoin_view = ShuttleUnJoinView.as_view()
 class ShuttleUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     model = Shuttle
-    fields = ["destination"]
-    success_message = _("Information successfully updated")
+    template_name = 'shuttles/shuttle_update.html'
+    success_message = _("Shuttle successfully updated!")
+    form_class = ShuttleUpdateForm
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ShuttleUpdateView, self).get_context_data(*args, **kwargs)
+        context['pk'] = str(self.get_object().pk)
+        return context
+
 
     def get_success_url(self):
-        return self.request.shuttle.get_absolute_url()
-
-    def get_object(self):
-        return self.request.shuttle
-
+        return reverse_lazy('shuttles:list')
 
 shuttle_update_view = ShuttleUpdateView.as_view()
 
@@ -142,7 +144,10 @@ class ShuttleRedirectView(LoginRequiredMixin, RedirectView):
     permanent = False
 
     def get_redirect_url(self):
-        return reverse("shuttles:detail", kwargs={"uid": self.request.shuttle.uid})
+        return reverse(
+            "shuttles:detail",
+            kwargs={"uid": self.request.shuttle.uid}
+        )
 
 
 shuttle_redirect_view = ShuttleRedirectView.as_view()

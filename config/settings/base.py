@@ -1,7 +1,9 @@
 """
 Base settings to build other settings files upon.
 """
+import os
 from pathlib import Path
+
 
 import environ
 
@@ -227,6 +229,25 @@ EMAIL_BACKEND = env(
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# # EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+# # EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+# EMAIL_HOST_USER = 'instashuttlehelp@gmail.com'
+# EMAIL_HOST_PASSWORD = 'mhdfuzfnreqchzbu'
+#
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+SENDGRID_API_KEY = env('SENDGRID_API_KEY')
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = 'instashuttlehelp@gmail.com'
 
 # ADMIN
 # ------------------------------------------------------------------------------
