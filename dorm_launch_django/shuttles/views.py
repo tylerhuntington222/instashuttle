@@ -100,10 +100,7 @@ class ShuttleDeleteView(TemplateView, LoginRequiredMixin):
         shuttle = Shuttle.objects.get(pk=pk)
         shuttle.status = 'Deleted'
         shuttle.save()
-        context = {
-            'object_list': Shuttle.objects.all().order_by('time_slot')
-        }
-        return render(request, self.template_name, context=context)
+        return redirect('shuttles:list')
 
 shuttle_delete_view = ShuttleDeleteView.as_view()
 
