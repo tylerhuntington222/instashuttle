@@ -15,7 +15,7 @@ class User(AbstractUser):
 
     @property
     def n_shuttles(self):
-        return len(self.shuttle_set.all())
+        return len(self.shuttle_set.filter(status='Approved'))
 
     @property
     def shuttle_tokens(self):
